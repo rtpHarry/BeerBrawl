@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+    <title>Beer Buddy</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    
+	<style type="text/css" media="screen">@import "/jqtouch/themes/css/jqtouch.css";</style>
+    <script src="/jqtouch/src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      // Fire up JQTouch
+      var jQT = $.jQTouch({
+        statusBar: 'black'
+      });
+	  
+	  $(document).ready(function() {
+		  $('#brawlbutton').click(function (){
+			  // get offer one info
+			  var cansize1 = $("#cansize1").val();
+			  var cansinpack1 = $("#cansinpack1").val();
+			  var numberofpacks1 = $("#numberofpacks1").val();
+			  var cost1 = $("#cost1").val();
+			  
+			  // get offer two info
+			  var cansize2 = $("#cansize2").val();
+			  var cansinpack2 = $("#cansinpack2").val();
+			  var numberofpacks2 = $("#numberofpacks2").val();
+			  var cost2 = $("#cost2").val();
+			  
+			  // calculate winner
+			  var offer1per100ml = getPricePer100ml(cansize1, cansinpack1, numberofpacks1, cost1);
+			  var offer2per100ml = getPricePer100ml(cansize2, cansinpack2, numberofpacks2, cost2);		  
+			  
+			  // show result
+			  var $result = $("#result");
+			  var resultSnippet = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
+				  
+			  $result.text(resultSnippet);
+		  });
+	  });
+	  
+	  function getPricePer100ml(cansize, cansinpack, numberofpacks, cost) {
+		  var totalCans = cansinpack * numberofpacks;
+		  var totalMl = totalCans * cansize;
+		  var total100Mls = totalMl / 100;
+		  return cost / total100Mls;
+	  }
+    </script>
+    <style type="text/css">
+	
+    </style>
+  </head>
+
+  <body>
+      <div id="jqt">
+        <div id="offer1">
+            <div class="toolbar">
+              <h1>Beer Brawl</h1>
+            </div>      
+            <ul class="edit rounded">
+                 <li><input type="text" name="name1" placeholder="Name (Optional)" id="name1" /></li>
+                 <li><input type="number" name="cansize1" placeholder="Can Size (ml)" id="cansize1" /></li>
+                 <li><input type="number" name="cansinpack1" placeholder="Cans In Pack" id="cansinpack1" /></li>
+                 <li><input type="number" name="numberofpacks1" placeholder="Number Of Packs" id="numberofpacks1" /></li>
+                 <li><input type="number" name="cost1" placeholder="Cost" id="cost1" /></li>
+            </ul>
+            <ul class="rounded">
+                <li><a class="greenButton" href="#offer2">Add Contender</a></li>
+            </ul>
+        </div>
+        <div id="offer2">
+            <div class="toolbar">
+              <h1>Add Contender</h1>
+              <a href="#" class="back">Back</a>
+            </div>         
+            <ul class="edit rounded">
+                 <li><input type="text" name="name2" placeholder="Name (Optional)" id="name2" /></li>
+                 <li><input type="number" name="cansize2" placeholder="Can Size (ml)" id="cansize2" /></li>
+                 <li><input type="number" name="cansinpack2" placeholder="Cans In Pack" id="cansinpack2" /></li>
+                 <li><input type="number" name="numberofpacks2" placeholder="Number Of Packs" id="numberofpacks2" /></li>
+                 <li><input type="number" name="cost2" placeholder="Cost" id="cost2" /></li>
+            </ul>
+            <ul class="rounded">
+                <li><a class="greenButton" id="brawlbutton" href="#brawl">Brawl!</a></li>
+            </ul>            
+        </div>
+        <div id="brawl">
+            <div class="toolbar">
+              <h1>Brawl Winner</h1>
+              <a href="#" class="back">Back</a>
+            </div>         
+            <ul class="edit rounded">
+                 <li id="result"></li>
+            </ul>
+            <ul class="rounded">
+                <li><a class="greenButton" href="#offer2">Winner Stays On</a></li>            
+                <li><a class="redButton" href="#offer1">Start Over</a></li>
+            </ul>            
+        </div>        
+    </div>
+  </body>
+</html>
