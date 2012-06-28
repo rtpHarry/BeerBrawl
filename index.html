@@ -41,7 +41,10 @@
 			  var $result = $("#result");
 			  var resultSnippet = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
 				  
-			  $result.text(resultSnippet);
+			  $result
+			  	.append("<h1>" + resultSnippet + "</h1>")
+			  	.append("<p>Offer 1 cost per 100ml = " + offer1per100ml + "</p>")
+			  	.append("<p>Offer 2 cost per 100ml = " + offer2per100ml + "</p>");
 		  });
   
 			$('#offer1').bind('pageAnimationStart', function(e, data){
@@ -57,10 +60,10 @@
 			$('#offer2').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					validateRequiredField(e, "#cansize1", "Can Size");
-					validateRequiredField(e, "#cansinpack1", "Cans In Pack");
-					validateRequiredField(e, "#numberofpacks1", "Number Of Packs");
-					validateRequiredField(e, "#cost1", "Offer Cost");
+					validateRequiredField(e, "#cansize2", "Can Size");
+					validateRequiredField(e, "#cansinpack2", "Cans In Pack");
+					validateRequiredField(e, "#numberofpacks2", "Number Of Packs");
+					validateRequiredField(e, "#cost2", "Offer Cost");
 				}
 			});			
 	  });
