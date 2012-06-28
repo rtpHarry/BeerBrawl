@@ -137,8 +137,17 @@
             // Collapse the keyboard
             $(':focus').trigger('blur');
 
-            fromPage.trigger('pageAnimationStart', { direction: 'out', back: goingBack });
-            toPage.trigger('pageAnimationStart', { direction: 'in', back: goingBack });
+			var pageAnimationStartOutEvent = jQuery.Event("pageAnimationStart");
+            fromPage.trigger(pageAnimationStartOutEvent, { direction: 'out', back: goingBack });
+			if( pageAnimationStartOutEvent.isDefaultPrevented() ) {
+				return;
+			}
+			
+			var pageAnimationStartInEvent = jQuery.Event("pageAnimationStart");
+            toPage.trigger(pageAnimationStartInEvent, { direction: 'in', back: goingBack });			
+			if( pageAnimationStartInEvent.isDefaultPrevented() ) {
+				return;
+			}			
 
             if ($.support.animationEvents && animation && jQTSettings.useAnimations) {
                 // Fail over to 2d animation if need be
@@ -228,7 +237,7 @@
 
                 // Trigger custom events
                 toPage.trigger('pageAnimationEnd', { direction:'in', animation: animation});
-                fromPage.trigger('pageAnimationEnd', { direction:'out', animation: animation});
+                fromPage.trigger('pageAnimationEnd', { direction:'out', animation: animation});			
             }
 
             return true;
