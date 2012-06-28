@@ -4,9 +4,13 @@
     <meta charset="utf-8">
     <title>Beer Buddy</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <style type="text/css" media="screen">@import "/jqtouch/themes/css/jqtouch.css";</style>
     <style type="text/css" media="screen">
-@import "/jqtouch/themes/css/jqtouch.css";
-</style>
+		.validation
+		{
+			color: #E71212;
+		}
+	</style>
     <script src="/jqtouch/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
@@ -39,26 +43,26 @@
 				  
 			  $result.text(resultSnippet);
 		  });
-		  
-		  /*$('#addContender').click(function(e) {
-			  if($("#cansize1").val() == "") {
-				  $("#validation").text("validation error");
-				  e.preventDefault();
-			  }
-			  
-			  jQT.goTo("#offer2", "flip");
-		  });*/
-		  
+  
 			$('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					if($("#cansize1").val() == "") {
-					  $("#validation").text("validation error");
-					  e.preventDefault();
-				 	}
+					validateRequiredField(e, "#cansize1", "Can Size");
+					validateRequiredField(e, "#cansinpack1", "Cans In Pack");
+					validateRequiredField(e, "#numberofpacks1", "Number Of Packs");
+					validateRequiredField(e, "#cost1", "Offer Cost");
 				}
-	        });
-		  
+			});
+			
+			$('#offer2').bind('pageAnimationStart', function(e, data){
+				if (data.direction == 'out')
+				{
+					validateRequiredField(e, "#cansize1", "Can Size");
+					validateRequiredField(e, "#cansinpack1", "Cans In Pack");
+					validateRequiredField(e, "#numberofpacks1", "Number Of Packs");
+					validateRequiredField(e, "#cost1", "Offer Cost");
+				}
+			});			
 	  });
 	  
 	  function getPricePer100ml(cansize, cansinpack, numberofpacks, cost) {
@@ -67,8 +71,17 @@
 		  var total100Mls = totalMl / 100;
 		  return cost / total100Mls;
 	  }
+	  
+	  function validateRequiredField(e, selector, name) {
+		if($(selector).val() == "") {
+		  $(selector).next(".validation").text(name + " is required!");
+		  e.preventDefault();
+		}		  
+		else {
+		  $(selector).next(".validation").empty();	
+		}
+	  }
     </script>
-    <style type="text/css"></style>
     </head>
 
     <body>
@@ -78,27 +91,29 @@
           <h1>Beer Brawl</h1>
         </div>
         <ul class="edit rounded">
-          <li><span id="validation"></span></li>
           <li>
             <input type="text" name="name1" placeholder="Name (Optional)" id="name1" />
           </li>
           <li>
             <input type="number" name="cansize1" placeholder="Can Size (ml)" id="cansize1" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="cansinpack1" placeholder="Cans In Pack" id="cansinpack1" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="numberofpacks1" placeholder="Number Of Packs" id="numberofpacks1" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="cost1" placeholder="Cost" id="cost1" />
+            <div class="validation"></div>
           </li>
         </ul>
         <ul class="rounded">
           <li>
-            <!--<button class="greenButton" id="addContender">Add Contender</button>-->
-          <a class="greenButton" href="#offer2">Add Contender</a>
+	          <a class="greenButton" href="#offer2">Add Contender</a>
           </li>
         </ul>
       </div>
@@ -112,15 +127,19 @@
           </li>
           <li>
             <input type="number" name="cansize2" placeholder="Can Size (ml)" id="cansize2" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="cansinpack2" placeholder="Cans In Pack" id="cansinpack2" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="numberofpacks2" placeholder="Number Of Packs" id="numberofpacks2" />
+            <div class="validation"></div>
           </li>
           <li>
             <input type="number" name="cost2" placeholder="Cost" id="cost2" />
+            <div class="validation"></div>
           </li>
         </ul>
         <ul class="rounded">
