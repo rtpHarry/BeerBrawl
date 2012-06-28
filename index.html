@@ -40,11 +40,13 @@
 			  // show result
 			  var $result = $("#result");
 			  var resultSnippet = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
+			 // var savingSnippet = "Total Saved = " + getTotalSaving(offer1per100ml, offer2per100ml, ;
 				  
 			  $result
 			  	.append("<h1>" + resultSnippet + "</h1>")
-			  	.append("<p>Offer 1 cost per 100ml = " + offer1per100ml + "</p>")
-			  	.append("<p>Offer 2 cost per 100ml = " + offer2per100ml + "</p>");
+				.append("<h2>Cost per 100ml</h2>")
+			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
+			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>");				
 		  });
   
 			$('#offer1').bind('pageAnimationStart', function(e, data){
