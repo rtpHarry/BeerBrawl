@@ -36,27 +36,27 @@
 Right now you're computing the cost per 100ml. Instead you could be computing the cost per ml of alcohol. If you take the total number of ml and multiply by ABV, then you get the number of mls of alcohol. Dividing as you did before will indicate the cheapest way to get wasted. 
 	  */
 	  
-	  OfferInfo.prototype.getPricePer1000ml = function () {
+	  OfferInfo.prototype.getPricePer100ml = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
-		  var totalLiters = totalMl / 1000;
-		  return (this.Cost / totalLiters).toFixed(2);
+		  var totalCl = totalMl / 100;
+		  return (this.Cost / totalCl).toFixed(2);
 	  }
 	  
-	  OfferInfo.prototype.getPricePer1000mlABV = function () {
+	  OfferInfo.prototype.getPricePer100mlABV = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
 		  var numberOfMlsOfAlcohol = totalMl;
 		  if(!isNaN(this.ABV)) {
 			  numberOfMlsOfAlcohol = totalMl * this.ABV;
 		  }		
-		  var totalCl = numberOfMlsOfAlcohol / 1000;
+		  var totalCl = numberOfMlsOfAlcohol / 100;
 		  return (this.Cost / totalCl);
 //		  return (this.Cost / totalCl).toFixed(2);		  
 	  }	  
 	  
 	  OfferInfo.prototype.compare = function (otherOffer) {
-		  return this.getPricePer1000ml() < otherOffer.getPricePer1000ml() ? this : otherOffer;
+		  return this.getPricePer100ml() < otherOffer.getPricePer100ml() ? this : otherOffer;
 	  }
 	    
 	  $(document).ready(function() {
@@ -68,17 +68,17 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  var offer2 = getOfferInfo("#offer2");			  
 			  
 			  // calculate winner
-			  var offer1per1000ml = offer1.getPricePer1000ml();
-			  var offer2per1000ml = offer2.getPricePer1000ml();	
+			  var offer1per100ml = offer1.getPricePer100ml();
+			  var offer2per100ml = offer2.getPricePer100ml();	
 
-			  var offer1per1000mlABV = offer1.getPricePer1000mlABV();
-			  var offer2per1000mlABV = offer2.getPricePer1000mlABV();				  	  
+			  var offer1per100mlABV = offer1.getPricePer100mlABV();
+			  var offer2per100mlABV = offer2.getPricePer100mlABV();				  	  
 			  
-			  var offer1percan = (offer1per1000ml / 100) * offer1.CanSize;
-			  var offer2percan = (offer1per1000ml / 100) * offer1.CanSize;
+			  var offer1percan = (offer1per100ml / 100) * offer1.CanSize;
+			  var offer2percan = (offer1per100ml / 100) * offer1.CanSize;
 			  			  
-			  var resultHeadline = (offer1per1000ml < offer2per1000ml) ? "Offer 1 wins!" : "Offer 2 wins!";
-			  if(offer1per1000ml === offer2per1000ml) {
+			  var resultHeadline = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
+			  if(offer1per100ml === offer2per100ml) {
 				  resultHeadline = "Both Offers The Same!";
 			  }
 
@@ -86,15 +86,15 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  var $result = $("#result");			  				  
 			  $result
 			  	.append("<h1>" + resultHeadline + "</h1>")
-				.append("<h2>Cost per liter</h2>")
-			  	.append("<p>Offer 1 = £" + offer1per1000ml + "p</p>")
-			  	.append("<p>Offer 2 = £" + offer2per1000ml + "p</p>")
-				.append("<h2>Cost per liter ABV</h2>")
-			  	.append("<p>Offer 1 = £" + offer1per1000mlABV + "p</p>")
-			  	.append("<p>Offer 2 = £" + offer2per1000mlABV + "p</p>")				
+				.append("<h2>Cost per 100ml</h2>")
+			  	.append("<p>Offer 1 = £" + offer1per100ml + "p</p>")
+			  	.append("<p>Offer 2 = £" + offer2per100ml + "p</p>")
+				.append("<h2>Cost per 100ml ABV</h2>")
+			  	.append("<p>Offer 1 = " + offer1per100mlABV + "</p>")
+			  	.append("<p>Offer 2 = " + offer2per100mlABV + "</p>")				
 				.append("<h2>Cost per can</h2>")
-				.append("<p>Offer 1 = £" + offer1percan.toFixed(2) + "p</p>")
-				.append("<p>Offer 2 = £" + offer2percan.toFixed(2) + "p</p>");
+				.append("<p>Offer 1 = " + offer1percan.toFixed(2) + "</p>")
+				.append("<p>Offer 2 = " + offer2percan.toFixed(2) + "</p>");
 		  });
 		  
 		  $("#startover").click(function(e) {
