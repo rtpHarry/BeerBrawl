@@ -48,6 +48,10 @@
 			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
 			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>");				
 		  });
+		  
+		  $("#startover").click(function(e) {
+            resetBeerBrawl();
+        });
   
 			$('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
@@ -86,6 +90,12 @@
 		  $(selector).next(".validation").empty();	
 		}
 	  }
+	  
+	  function resetBeerBrawl() {
+		  $(".input").val("");
+		  $(".validation").empty();
+		  $("#result").empty();
+	  }
     </script>
     </head>
 
@@ -97,22 +107,22 @@
         </div>
         <ul class="edit rounded">
           <li>
-            <input type="text" name="name1" placeholder="Name (Optional)" id="name1" />
+            <input type="text" name="name1" class="input" placeholder="Name (Optional)" id="name1" />
           </li>
           <li>
-            <input type="number" name="cansize1" placeholder="Can Size (ml)" id="cansize1" />
+            <input type="number" name="cansize1" class="input" placeholder="Can Size (ml)" id="cansize1" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack1" placeholder="Cans In Pack" id="cansinpack1" />
+            <input type="number" name="cansinpack1" class="input" placeholder="Cans In Pack" id="cansinpack1" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks1" placeholder="Number Of Packs" id="numberofpacks1" />
+            <input type="number" name="numberofpacks1" class="input" placeholder="Number Of Packs" id="numberofpacks1" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost1" placeholder="Cost" id="cost1" />
+            <input type="number" name="cost1" class="input" placeholder="Cost" id="cost1" />
             <div class="validation"></div>
           </li>
         </ul>
@@ -128,22 +138,22 @@
           <a href="#" class="back">Back</a> </div>
         <ul class="edit rounded">
           <li>
-            <input type="text" name="name2" placeholder="Name (Optional)" id="name2" />
+            <input type="text" name="name2" class="input" placeholder="Name (Optional)" id="name2" />
           </li>
           <li>
-            <input type="number" name="cansize2" placeholder="Can Size (ml)" id="cansize2" />
+            <input type="number" name="cansize2" class="input" placeholder="Can Size (ml)" id="cansize2" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack2" placeholder="Cans In Pack" id="cansinpack2" />
+            <input type="number" name="cansinpack2" class="input" placeholder="Cans In Pack" id="cansinpack2" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks2" placeholder="Number Of Packs" id="numberofpacks2" />
+            <input type="number" name="numberofpacks2" class="input" placeholder="Number Of Packs" id="numberofpacks2" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost2" placeholder="Cost" id="cost2" />
+            <input type="number" name="cost2" class="input" placeholder="Cost" id="cost2" />
             <div class="validation"></div>
           </li>
         </ul>
@@ -160,7 +170,7 @@
         </ul>
         <ul class="rounded">
           <li><a class="greenButton" href="#offer2">Winner Stays On</a></li>
-          <li><a class="redButton" href="#offer1">Start Over</a></li>
+          <li><a class="redButton" id="startover" href="#offer1">Start Over</a></li>
         </ul>
       </div>
     </div>
