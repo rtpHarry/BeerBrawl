@@ -58,8 +58,6 @@
 			  }
 
 			  // show result
-			  // TODO
-			  // Move this template out to ID based placeholders			  
 			  var $result = $("#result");			  				  
 			  $result
 			  	.append("<h1>" + resultHeadline + "</h1>")
@@ -67,8 +65,8 @@
 			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
 			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>")
 				.append("<h2>Cost per can</h2>")
-				.append("Offer 1 = " + offer1percan.toFixed(2) + "</p>")
-				.append("Offer 2 = " + offer2percan.toFixed(2) + "</p>");
+				.append("<p>Offer 1 = " + offer1percan.toFixed(2) + "</p>")
+				.append("<p>Offer 2 = " + offer2percan.toFixed(2) + "</p>");
 		  });
 		  
 		  $("#startover").click(function(e) {
@@ -174,6 +172,7 @@
             <input type="number" name="cost1" class="input cost" placeholder="Cost" />
             <div class="validation"></div>
           </li>
+        
         </ul>
         <ul class="rounded">
           <li> <a class="greenButton" href="#offer2">Add Contender</a> </li>
