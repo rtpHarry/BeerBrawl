@@ -43,6 +43,8 @@
 	  }
 	    
 	  $(document).ready(function() {
+		  debugPopulateOffers();
+		  
 		  $('#brawlbutton').click(function (){
 			  // get offer info
 			  var offer1 = getOfferInfo("#offer1");
@@ -141,6 +143,11 @@
 		  
 		  // populate page 1 with winner
 		  populateOfferUI("#offer1", winningOffer);
+	  }
+	  
+	  function debugPopulateOffers() {
+		  populateOfferUI("#offer1", new OfferInfo(440, 10, 1, 10));
+		  populateOfferUI("#offer2", new OfferInfo(440, 2, 1, 12));		  
 	  }
     </script>
     </head>
