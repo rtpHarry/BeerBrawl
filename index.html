@@ -11,6 +11,11 @@
 .validation {
 	color: #E71212;
 }
+
+.debug {
+	/* set to false for live app */
+	display: block;
+}
 </style>
     <script src="/jqtouch/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -31,30 +36,31 @@
 Right now you're computing the cost per 100ml. Instead you could be computing the cost per ml of alcohol. If you take the total number of ml and multiply by ABV, then you get the number of mls of alcohol. Dividing as you did before will indicate the cheapest way to get wasted. 
 	  */
 	  
-	  OfferInfo.prototype.getPricePer100ml = function () {
+	  OfferInfo.prototype.getPricePer1000ml = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
-		  var totalCl = totalMl / 100;
-		  return (this.Cost / totalCl).toFixed(2);
+		  var totalLiters = totalMl / 1000;
+		  return (this.Cost / totalLiters).toFixed(2);
 	  }
 	  
-	  OfferInfo.prototype.getPricePer100mlABV = function () {
+	  OfferInfo.prototype.getPricePer1000mlABV = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
 		  var numberOfMlsOfAlcohol = totalMl;
 		  if(!isNaN(this.ABV)) {
 			  numberOfMlsOfAlcohol = totalMl * this.ABV;
 		  }		
-		  var totalCl = totalMl / 100;
-		  return (this.Cost / totalCl).toFixed(2);
+		  var totalCl = numberOfMlsOfAlcohol / 1000;
+		  return (this.Cost / totalCl);
+//		  return (this.Cost / totalCl).toFixed(2);		  
 	  }	  
 	  
 	  OfferInfo.prototype.compare = function (otherOffer) {
-		  return this.getPricePer100ml() < otherOffer.getPricePer100ml() ? this : otherOffer;
+		  return this.getPricePer1000ml() < otherOffer.getPricePer1000ml() ? this : otherOffer;
 	  }
 	    
 	  $(document).ready(function() {
-		  debugPopulateOffers();
+		  //debugPopulateOffers();
 		  
 		  $('#brawlbutton').click(function (){
 			  // get offer info
@@ -62,17 +68,17 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  var offer2 = getOfferInfo("#offer2");			  
 			  
 			  // calculate winner
-			  var offer1per100ml = offer1.getPricePer100ml();
-			  var offer2per100ml = offer2.getPricePer100ml();	
+			  var offer1per1000ml = offer1.getPricePer1000ml();
+			  var offer2per1000ml = offer2.getPricePer1000ml();	
 
-			  var offer1per100mlABV = offer1.getPricePer100mlABV();
-			  var offer2per100mlABV = offer2.getPricePer100mlABV();				  	  
+			  var offer1per1000mlABV = offer1.getPricePer1000mlABV();
+			  var offer2per1000mlABV = offer2.getPricePer1000mlABV();				  	  
 			  
-			  var offer1percan = (offer1per100ml / 100) * offer1.CanSize;
-			  var offer2percan = (offer1per100ml / 100) * offer1.CanSize;
+			  var offer1percan = (offer1per1000ml / 100) * offer1.CanSize;
+			  var offer2percan = (offer1per1000ml / 100) * offer1.CanSize;
 			  			  
-			  var resultHeadline = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
-			  if(offer1per100ml === offer2per100ml) {
+			  var resultHeadline = (offer1per1000ml < offer2per1000ml) ? "Offer 1 wins!" : "Offer 2 wins!";
+			  if(offer1per1000ml === offer2per1000ml) {
 				  resultHeadline = "Both Offers The Same!";
 			  }
 
@@ -80,26 +86,39 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  var $result = $("#result");			  				  
 			  $result
 			  	.append("<h1>" + resultHeadline + "</h1>")
-				.append("<h2>Cost per 100ml</h2>")
-			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
-			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>")
-				.append("<h2>Cost per 100ml ABV</h2>")
-			  	.append("<p>Offer 1 = " + offer1per100mlABV.toFixed(2) + "</p>")
-			  	.append("<p>Offer 2 = " + offer2per100mlABV.toFixed(2) + "</p>")				
+				.append("<h2>Cost per liter</h2>")
+			  	.append("<p>Offer 1 = £" + offer1per1000ml + "p</p>")
+			  	.append("<p>Offer 2 = £" + offer2per1000ml + "p</p>")
+				.append("<h2>Cost per liter ABV</h2>")
+			  	.append("<p>Offer 1 = £" + offer1per1000mlABV + "p</p>")
+			  	.append("<p>Offer 2 = £" + offer2per1000mlABV + "p</p>")				
 				.append("<h2>Cost per can</h2>")
-				.append("<p>Offer 1 = " + offer1percan.toFixed(2) + "</p>")
-				.append("<p>Offer 2 = " + offer2percan.toFixed(2) + "</p>");
+				.append("<p>Offer 1 = £" + offer1percan.toFixed(2) + "p</p>")
+				.append("<p>Offer 2 = £" + offer2percan.toFixed(2) + "p</p>");
 		  });
 		  
 		  $("#startover").click(function(e) {
             resetBeerBrawl();
-        });
+		  });
 		
-		$("#winnerstayson").click(function(e) {
-            winnerStaysOn();
-        });
+		  $("#winnerstayson").click(function(e) {
+		     winnerStaysOn();
+		  });
+		
+		  $("#debugstartover").click(function(e) {
+		      resetBeerBrawl();
+		  	  debugPopulateOffers();
+		  });
+		  
+		  $("#debugsample1").click(function(e) {
+            debugPopulateSampleOffer1();
+          });
+		  
+		  $("#debugsample2").click(function(e) {
+            debugPopulateSampleOffer2();
+          });
   
-			$('#offer1').bind('pageAnimationStart', function(e, data){
+		  $('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
 					validateRequiredField(e, "#offer1 .cansize", "Can Size");
@@ -107,9 +126,9 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 					validateRequiredField(e, "#offer1 .numberofpacks", "Number Of Packs");
 					validateRequiredField(e, "#offer1 .cost", "Offer Cost");
 				}
-			});
+		  });
 			
-			$('#offer2').bind('pageAnimationStart', function(e, data){
+		  $('#offer2').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
 					validateRequiredField(e, "#offer2 .cansize", "Can Size");
@@ -117,8 +136,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 					validateRequiredField(e, "#offer2 .numberofpacks", "Number Of Packs");
 					validateRequiredField(e, "#offer2 .cost", "Offer Cost");
 				}
-			});
-			
+		  });
 					
 	  });
 	  
@@ -130,6 +148,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  offerInfo.CansInPack = $offer.find(".cansinpack").val();
 		  offerInfo.NumberOfPacks = $offer.find(".numberofpacks").val();
 		  offerInfo.Cost = $offer.find(".cost").val();
+  		  offerInfo.ABV = $offer.find(".abv").val();
 		  
 		  return offerInfo;
 	  }
@@ -140,7 +159,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  $offer.find(".cansinpack").val(offerInfo.CansInPack);
 		  $offer.find(".numberofpacks").val(offerInfo.NumberOfPacks);
 		  $offer.find(".cost").val(offerInfo.Cost);
-		  $offer.find(".abv").val(offerInfo.ABV);		  
+		  $offer.find(".abv").val(offerInfo.ABV);
 	  }
 
 	  function validateRequiredField(e, selector, name) {
@@ -166,9 +185,17 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  }
 	  
 	  function debugPopulateOffers() {
-		  populateOfferUI("#offer1", new OfferInfo(440, 10, 10, 10, 4.8));
-		  populateOfferUI("#offer2", new OfferInfo(440, 10, 10, 10, 5.0));		  
+		  debugPopulateSampleOffer1();
+		  debugPopulateSampleOffer2();
 	  }
+	  
+	  function debugPopulateSampleOffer1() {
+		  populateOfferUI("#offer1", new OfferInfo(440, 10, 10, 10, 4.8));		  
+	  }
+	  
+	  function debugPopulateSampleOffer2() {
+		  populateOfferUI("#offer2", new OfferInfo(440, 10, 10, 10, 5.0));		  
+	  }	  
     </script>
     </head>
 
@@ -197,10 +224,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
           </li>
           <li>
             <input type="number" name="abv1" class="input abv" placeholder="ABV (% Strength) (Optional)" />
-          </li>         
+          </li>
         </ul>
         <ul class="rounded">
           <li> <a class="greenButton" href="#offer2">Add Contender</a> </li>
+          <li class="debug"> <a class="redButton" href="#" id="debugsample1">Sample Data</a> </li>
         </ul>
       </div>
       <div id="offer2">
@@ -226,10 +254,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
           </li>
           <li>
             <input type="number" name="abv2" class="input abv" placeholder="ABV (% Strength) (Optional)" />
-          </li>           
+          </li>
         </ul>
         <ul class="rounded">
           <li><a class="greenButton" id="brawlbutton" href="#brawl">Brawl!</a></li>
+          <li class="debug"> <a class="redButton" href="#" id="debugsample2">Sample Data</a> </li>          
         </ul>
       </div>
       <div id="brawl">
@@ -242,6 +271,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
         <ul class="rounded">
           <li><a class="greenButton" id="winnerstayson" href="#offer2">Winner Stays On</a></li>
           <li><a class="redButton" id="startover" href="#offer1">Start Over</a></li>
+          <li class="debug"><a class="redButton" id="debugstartover" href="#offer1">Debug Start Over</a></li>
         </ul>
       </div>
     </div>
