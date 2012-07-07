@@ -107,6 +107,14 @@
 		  
 		  return offerInfo;
 	  }
+	  
+	  function populateOfferUI(selector, offerInfo) {
+		  var $offer = $(selector);
+		  $offer.find(".cansize").val(offerInfo.CanSize);
+		  $offer.find(".cansinpack").val(offerInfo.CansInPack);
+		  $offer.find(".numberofpacks").val(offerInfo.NumberOfPacks);
+		  $offer.find(".cost").val(offerInfo.Cost);
+	  }
 	  	  
 	  function validateRequiredField(e, selector, name) {
 		if($(selector).val() == "") {
@@ -126,8 +134,13 @@
 	  
 	  function winnerStaysOn() {
 		  // calculate winner
+		  var winningOffer = getOfferInfo("#offer1").compare(getOfferInfo("#offer2"));
+		  
 		  // reset 
+		  resetBeerBrawl();
+		  
 		  // populate page 1 with winner
+		  populateOfferUI("#offer1", winningOffer);
 	  }
     </script>
     </head>
