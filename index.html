@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <title>Beer Brawl</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <style type="text/css" media="screen">@import "/jqtouch/themes/css/jqtouch.css";</style>
     <style type="text/css" media="screen">
-		.validation
-		{
-			color: #E71212;
-		}
-	</style>
+@import "/jqtouch/themes/css/jqtouch.css";
+</style>
+    <style type="text/css" media="screen">
+.validation {
+	color: #E71212;
+}
+</style>
     <script src="/jqtouch/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
-      // Fire up JQTouch
       var jQT = $.jQTouch({
         statusBar: 'black'
       });
@@ -29,17 +29,12 @@
 	  OfferInfo.prototype.getPricePer100ml = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
-		  var total100Mls = totalMl / 100;
-		  return this.Cost / total100Mls;
+		  var totalCl = totalMl / 100;
+		  return (this.Cost / totalCl).toFixed(2);
 	  }
 	  
 	  OfferInfo.prototype.compare = function (otherOffer) {
-		  if (this.getPricePer100ml() < otherOffer.getPricePer100ml()){
-			  return this;
-		  }
-		  else {
-			  return otherOffer;
-		  }
+		  return this.getPricePer100ml() < otherOffer.getPricePer100ml() ? this : otherOffer;
 	  }
 	    
 	  $(document).ready(function() {
@@ -54,24 +49,33 @@
 			  var offer1per100ml = offer1.getPricePer100ml();
 			  var offer2per100ml = offer2.getPricePer100ml();		  
 			  
-			  // show result
-			  var $result = $("#result");
+			  var offer1percan = (offer1per100ml / 100) * offer1.CanSize;
+			  var offer2percan = (offer1per100ml / 100) * offer1.CanSize;
+			  			  
 			  var resultHeadline = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
-//			  var amountSaved = ""
-				  
+			  if(offer1per100ml === offer2per100ml) {
+				  resultHeadline = "Both Offers The Same!";
+			  }
+
+			  // show result
+			  // TODO
+			  // Move this template out to ID based placeholders			  
+			  var $result = $("#result");			  				  
 			  $result
 			  	.append("<h1>" + resultHeadline + "</h1>")
 				.append("<h2>Cost per 100ml</h2>")
 			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
 			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>")
-				.append("<h2>Amount Saved</h2>");
+				.append("<h2>Cost per can</h2>")
+				.append("Offer 1 = " + offer1percan.toFixed(2) + "</p>")
+				.append("Offer 2 = " + offer2percan.toFixed(2) + "</p>");
 		  });
 		  
 		  $("#startover").click(function(e) {
             resetBeerBrawl();
         });
 		
-		$("#winnerstayson").change(function(e) {
+		$("#winnerstayson").click(function(e) {
             winnerStaysOn();
         });
   
@@ -117,7 +121,7 @@
 		  $offer.find(".numberofpacks").val(offerInfo.NumberOfPacks);
 		  $offer.find(".cost").val(offerInfo.Cost);
 	  }
-	  	  
+
 	  function validateRequiredField(e, selector, name) {
 		if($(selector).val() == "") {
 		  $(selector).next(".validation").text(name + " is required!");
@@ -172,9 +176,7 @@
           </li>
         </ul>
         <ul class="rounded">
-          <li>
-	          <a class="greenButton" href="#offer2">Add Contender</a>
-          </li>
+          <li> <a class="greenButton" href="#offer2">Add Contender</a> </li>
         </ul>
       </div>
       <div id="offer2">
