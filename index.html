@@ -44,19 +44,9 @@
 	    
 	  $(document).ready(function() {
 		  $('#brawlbutton').click(function (){
-			  // get offer one info
-			  var offer1 = new OfferInfo();
-			  offer1.CanSize = $("#cansize1").val();
-			  offer1.CansInPack = $("#cansinpack1").val();
-			  offer1.NumberOfPacks = $("#numberofpacks1").val();
-			  offer1.Cost = $("#cost1").val();
-			  			  
-			  // get offer two info
-			  var offer2 = new OfferInfo();
-			  offer2.CanSize = $("#cansize2").val();
-			  offer2.CansInPack = $("#cansinpack2").val();
-			  offer2.NumberOfPacks = $("#numberofpacks2").val();
-			  offer2.Cost = $("#cost2").val();
+			  // get offer info
+			  var offer1 = getOfferInfo("#offer1");
+			  var offer2 = getOfferInfo("#offer2");			  
 			  
 			  // calculate winner
 			  var offer1per100ml = offer1.getPricePer100ml();
@@ -71,7 +61,8 @@
 			  	.append("<h1>" + resultHeadline + "</h1>")
 				.append("<h2>Cost per 100ml</h2>")
 			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
-			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>");				
+			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>")
+				.append("<h2>Amount Saved</h2>");
 		  });
 		  
 		  $("#startover").click(function(e) {
@@ -85,25 +76,37 @@
 			$('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					validateRequiredField(e, "#cansize1", "Can Size");
-					validateRequiredField(e, "#cansinpack1", "Cans In Pack");
-					validateRequiredField(e, "#numberofpacks1", "Number Of Packs");
-					validateRequiredField(e, "#cost1", "Offer Cost");
+					validateRequiredField(e, "#offer1 .cansize", "Can Size");
+					validateRequiredField(e, "#offer1 .cansinpack", "Cans In Pack");
+					validateRequiredField(e, "#offer1 .numberofpacks", "Number Of Packs");
+					validateRequiredField(e, "#offer1 .cost", "Offer Cost");
 				}
 			});
 			
 			$('#offer2').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					validateRequiredField(e, "#cansize2", "Can Size");
-					validateRequiredField(e, "#cansinpack2", "Cans In Pack");
-					validateRequiredField(e, "#numberofpacks2", "Number Of Packs");
-					validateRequiredField(e, "#cost2", "Offer Cost");
+					validateRequiredField(e, "#offer2 .cansize", "Can Size");
+					validateRequiredField(e, "#offer2 .cansinpack", "Cans In Pack");
+					validateRequiredField(e, "#offer2 .numberofpacks", "Number Of Packs");
+					validateRequiredField(e, "#offer2 .cost", "Offer Cost");
 				}
 			});
 			
 					
 	  });
+	  
+	  function getOfferInfo(selector) {
+		  var $offer = $(selector);
+		  var offerInfo = new OfferInfo();
+		  
+		  offerInfo.CanSize = $offer.find(".cansize").val();
+		  offerInfo.CansInPack = $offer.find(".cansinpack").val();
+		  offerInfo.NumberOfPacks = $offer.find(".numberofpacks").val();
+		  offerInfo.Cost = $offer.find(".cost").val();
+		  
+		  return offerInfo;
+	  }
 	  	  
 	  function validateRequiredField(e, selector, name) {
 		if($(selector).val() == "") {
@@ -137,19 +140,19 @@
         </div>
         <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize1" class="input" placeholder="Can Size (ml)" id="cansize1" />
+            <input type="number" name="cansize1" class="input cansize" placeholder="Can Size (ml)" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack1" class="input" placeholder="Cans In Pack" id="cansinpack1" />
+            <input type="number" name="cansinpack1" class="input cansinpack" placeholder="Cans In Pack" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks1" class="input" placeholder="Number Of Packs" id="numberofpacks1" />
+            <input type="number" name="numberofpacks1" class="input numberofpacks" placeholder="Number Of Packs" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost1" class="input" placeholder="Cost" id="cost1" />
+            <input type="number" name="cost1" class="input cost" placeholder="Cost" />
             <div class="validation"></div>
           </li>
         </ul>
@@ -165,19 +168,19 @@
           <a href="#" class="back">Back</a> </div>
         <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize2" class="input" placeholder="Can Size (ml)" id="cansize2" />
+            <input type="number" name="cansize2" class="input cansize" placeholder="Can Size (ml)" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack2" class="input" placeholder="Cans In Pack" id="cansinpack2" />
+            <input type="number" name="cansinpack2" class="input cansinpack" placeholder="Cans In Pack" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks2" class="input" placeholder="Number Of Packs" id="numberofpacks2" />
+            <input type="number" name="numberofpacks2" class="input numberofpacks" placeholder="Number Of Packs" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost2" class="input" placeholder="Cost" id="cost2" />
+            <input type="number" name="cost2" class="input cost" placeholder="Cost" />
             <div class="validation"></div>
           </li>
         </ul>
