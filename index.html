@@ -19,31 +19,56 @@
         statusBar: 'black'
       });
 	  
+	  function OfferInfo(canSize, cansInPack, numberOfPacks, cost) {
+		  this.CanSize = canSize;
+		  this.CansInPack = cansInPack;
+		  this.NumberOfPacks = numberOfPacks;
+		  this.Cost = cost;
+	  }
+	  
+	  OfferInfo.prototype.getPricePer100ml = function () {
+		  var totalCans = this.CansInPack * this.NumberOfPacks;
+		  var totalMl = totalCans * this.CanSize;
+		  var total100Mls = totalMl / 100;
+		  return this.Cost / total100Mls;
+	  }
+	  
+	  OfferInfo.prototype.compare = function (otherOffer) {
+		  if (this.getPricePer100ml() < otherOffer.getPricePer100ml()){
+			  return this;
+		  }
+		  else {
+			  return otherOffer;
+		  }
+	  }
+	    
 	  $(document).ready(function() {
 		  $('#brawlbutton').click(function (){
 			  // get offer one info
-			  var cansize1 = $("#cansize1").val();
-			  var cansinpack1 = $("#cansinpack1").val();
-			  var numberofpacks1 = $("#numberofpacks1").val();
-			  var cost1 = $("#cost1").val();
+			  var offer1 = new OfferInfo();
+			  offer1.CanSize = $("#cansize1").val();
+			  offer1.CansInPack = $("#cansinpack1").val();
+			  offer1.NumberOfPacks = $("#numberofpacks1").val();
+			  offer1.Cost = $("#cost1").val();
 			  			  
 			  // get offer two info
-			  var cansize2 = $("#cansize2").val();
-			  var cansinpack2 = $("#cansinpack2").val();
-			  var numberofpacks2 = $("#numberofpacks2").val();
-			  var cost2 = $("#cost2").val();
+			  var offer2 = new OfferInfo();
+			  offer2.CanSize = $("#cansize2").val();
+			  offer2.CansInPack = $("#cansinpack2").val();
+			  offer2.NumberOfPacks = $("#numberofpacks2").val();
+			  offer2.Cost = $("#cost2").val();
 			  
 			  // calculate winner
-			  var offer1per100ml = getPricePer100ml(cansize1, cansinpack1, numberofpacks1, cost1);
-			  var offer2per100ml = getPricePer100ml(cansize2, cansinpack2, numberofpacks2, cost2);		  
+			  var offer1per100ml = offer1.getPricePer100ml();
+			  var offer2per100ml = offer2.getPricePer100ml();		  
 			  
 			  // show result
 			  var $result = $("#result");
-			  var resultSnippet = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
-			 // var savingSnippet = "Total Saved = " + getTotalSaving(offer1per100ml, offer2per100ml, ;
+			  var resultHeadline = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
+//			  var amountSaved = ""
 				  
 			  $result
-			  	.append("<h1>" + resultSnippet + "</h1>")
+			  	.append("<h1>" + resultHeadline + "</h1>")
 				.append("<h2>Cost per 100ml</h2>")
 			  	.append("<p>Offer 1 = " + offer1per100ml.toFixed(2) + "</p>")
 			  	.append("<p>Offer 2 = " + offer2per100ml.toFixed(2) + "</p>");				
@@ -51,6 +76,10 @@
 		  
 		  $("#startover").click(function(e) {
             resetBeerBrawl();
+        });
+		
+		$("#winnerstayson").change(function(e) {
+            winnerStaysOn();
         });
   
 			$('#offer1').bind('pageAnimationStart', function(e, data){
@@ -71,16 +100,11 @@
 					validateRequiredField(e, "#numberofpacks2", "Number Of Packs");
 					validateRequiredField(e, "#cost2", "Offer Cost");
 				}
-			});			
+			});
+			
+					
 	  });
-	  
-	  function getPricePer100ml(cansize, cansinpack, numberofpacks, cost) {
-		  var totalCans = cansinpack * numberofpacks;
-		  var totalMl = totalCans * cansize;
-		  var total100Mls = totalMl / 100;
-		  return cost / total100Mls;
-	  }
-	  
+	  	  
 	  function validateRequiredField(e, selector, name) {
 		if($(selector).val() == "") {
 		  $(selector).next(".validation").text(name + " is required!");
@@ -95,6 +119,12 @@
 		  $(".input").val("");
 		  $(".validation").empty();
 		  $("#result").empty();
+	  }
+	  
+	  function winnerStaysOn() {
+		  // calculate winner
+		  // reset 
+		  // populate page 1 with winner
 	  }
     </script>
     </head>
@@ -163,7 +193,7 @@
           <li id="result"></li>
         </ul>
         <ul class="rounded">
-          <li><a class="greenButton" href="#offer2">Winner Stays On</a></li>
+          <li><a class="greenButton" id="winnerstayson" href="#offer2">Winner Stays On</a></li>
           <li><a class="redButton" id="startover" href="#offer1">Start Over</a></li>
         </ul>
       </div>
