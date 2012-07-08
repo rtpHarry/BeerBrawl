@@ -43,16 +43,14 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  return (this.Cost / totalCl).toFixed(2);
 	  }
 	  
-	  OfferInfo.prototype.getPricePer100mlABV = function () {
+	  OfferInfo.prototype.getPricePerMlOfAlcohol = function () {
 		  var totalCans = this.CansInPack * this.NumberOfPacks;
 		  var totalMl = totalCans * this.CanSize;
 		  var numberOfMlsOfAlcohol = totalMl;
 		  if(!isNaN(this.ABV)) {
 			  numberOfMlsOfAlcohol = totalMl * this.ABV;
 		  }		
-		  var totalCl = numberOfMlsOfAlcohol / 100;
-		  return (this.Cost / totalCl);
-//		  return (this.Cost / totalCl).toFixed(2);		  
+		  return (this.Cost / numberOfMlsOfAlcohol);
 	  }	  
 	  
 	  OfferInfo.prototype.compare = function (otherOffer) {
@@ -71,11 +69,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  var offer1per100ml = offer1.getPricePer100ml();
 			  var offer2per100ml = offer2.getPricePer100ml();	
 
-			  var offer1per100mlABV = offer1.getPricePer100mlABV();
-			  var offer2per100mlABV = offer2.getPricePer100mlABV();				  	  
+			  var offer1per100mlABV = offer1.getPricePerMlOfAlcohol();
+			  var offer2per100mlABV = offer2.getPricePerMlOfAlcohol();				  	  
 			  
 			  var offer1percan = (offer1per100ml / 100) * offer1.CanSize;
-			  var offer2percan = (offer1per100ml / 100) * offer1.CanSize;
+			  var offer2percan = (offer2per100ml / 100) * offer2.CanSize;
 			  			  
 			  var resultHeadline = (offer1per100ml < offer2per100ml) ? "Offer 1 wins!" : "Offer 2 wins!";
 			  if(offer1per100ml === offer2per100ml) {
@@ -89,12 +87,12 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 				.append("<h2>Cost per 100ml</h2>")
 			  	.append("<p>Offer 1 = £" + offer1per100ml + "p</p>")
 			  	.append("<p>Offer 2 = £" + offer2per100ml + "p</p>")
-				.append("<h2>Cost per 100ml ABV</h2>")
-			  	.append("<p>Offer 1 = " + offer1per100mlABV + "</p>")
-			  	.append("<p>Offer 2 = " + offer2per100mlABV + "</p>")				
+				.append("<h2>Cost per ml of alchohol</h2>")
+			  	.append("<p>Offer 1 = £" + offer1per100mlABV.toFixed(8) + "p</p>")
+			  	.append("<p>Offer 2 = £" + offer2per100mlABV.toFixed(8) + "p</p>")				
 				.append("<h2>Cost per can</h2>")
-				.append("<p>Offer 1 = " + offer1percan.toFixed(2) + "</p>")
-				.append("<p>Offer 2 = " + offer2percan.toFixed(2) + "</p>");
+				.append("<p>Offer 1 = £" + offer1percan.toFixed(2) + "p</p>")
+				.append("<p>Offer 2 = £" + offer2percan.toFixed(2) + "p</p>");
 		  });
 		  
 		  $("#startover").click(function(e) {
@@ -190,11 +188,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  }
 	  
 	  function debugPopulateSampleOffer1() {
-		  populateOfferUI("#offer1", new OfferInfo(440, 10, 10, 10, 4.8));		  
+		  populateOfferUI("#offer1", new OfferInfo(440, 10, 3, 22, 4.8));		  
 	  }
 	  
 	  function debugPopulateSampleOffer2() {
-		  populateOfferUI("#offer2", new OfferInfo(440, 10, 10, 10, 5.0));		  
+		  populateOfferUI("#offer2", new OfferInfo(440, 10, 2, 17, 4.8));		  
 	  }	  
     </script>
     </head>
