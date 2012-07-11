@@ -60,6 +60,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  $(document).ready(function() {
 		  //debugPopulateOffers();
 		  
+		  // setup validation
+		  $("input[data-required]").blur(function(e) {
+			  validateRequiredField(e, $(this));
+		  });
+		  
 		  $('#brawlbutton').click(function (){
 			  // get offer info
 			  var offer1 = getOfferInfo("#offer1");
@@ -157,11 +162,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  function validateRequiredFields(e, selector) {
 		  var $fields = $(selector).find("[data-required]");
 		  $fields.each(function(index, element) {
-			 validateRequiredFieldData(e, element);
+			 validateRequiredField(e, element);
 		  });
 	  }
 	  
-	  function validateRequiredFieldData(e, selector) {
+	  function validateRequiredField(e, selector) {
 		if($(selector).val() == "") {
 		  $(selector).next(".validation").text($(selector).data("required"));
 		  e.preventDefault();
