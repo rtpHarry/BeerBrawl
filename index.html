@@ -119,20 +119,14 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  $('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					validateRequiredField(e, "#offer1 .cansize", "Can Size");
-					validateRequiredField(e, "#offer1 .cansinpack", "Cans In Pack");
-					validateRequiredField(e, "#offer1 .numberofpacks", "Number Of Packs");
-					validateRequiredField(e, "#offer1 .cost", "Offer Cost");
+					validateRequiredFields(e, $("#offer1"));
 				}
 		  });
 			
 		  $('#offer2').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'out')
 				{
-					validateRequiredField(e, "#offer2 .cansize", "Can Size");
-					validateRequiredField(e, "#offer2 .cansinpack", "Cans In Pack");
-					validateRequiredField(e, "#offer2 .numberofpacks", "Number Of Packs");
-					validateRequiredField(e, "#offer2 .cost", "Offer Cost");
+					validateRequiredFields(e, $("#offer2"));
 				}
 		  });
 					
@@ -159,16 +153,23 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  $offer.find(".cost").val(offerInfo.Cost);
 		  $offer.find(".abv").val(offerInfo.ABV);
 	  }
-
-	  function validateRequiredField(e, selector, name) {
+	  
+	  function validateRequiredFields(e, selector) {
+		  var $fields = $(selector).find("[data-required]");
+		  $fields.each(function(index, element) {
+			 validateRequiredFieldData(e, element);
+		  });
+	  }
+	  
+	  function validateRequiredFieldData(e, selector) {
 		if($(selector).val() == "") {
-		  $(selector).next(".validation").text(name + " is required!");
+		  $(selector).next(".validation").text($(selector).data("required"));
 		  e.preventDefault();
 		}		  
 		else {
 		  $(selector).next(".validation").empty();	
 		}
-	  }
+	  }	  
 	  
 	  function resetBeerBrawl() {
 		  $(".input").val("");
@@ -205,19 +206,19 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
         </div>
         <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize1" class="input cansize" placeholder="Can Size (ml)" />
+            <input type="number" name="cansize1" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack1" class="input cansinpack" placeholder="Cans In Pack" />
+            <input type="number" name="cansinpack1" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks1" class="input numberofpacks" placeholder="Number Of Packs" />
+            <input type="number" name="numberofpacks1" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost1" class="input cost" placeholder="Cost" />
+            <input type="number" name="cost1" class="input cost" placeholder="Cost" data-required="Cost is required" />
             <div class="validation"></div>
           </li>
           <li>
@@ -235,19 +236,19 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
           <a href="#" class="back">Back</a> </div>
         <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize2" class="input cansize" placeholder="Can Size (ml)" />
+            <input type="number" name="cansize2" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cansinpack2" class="input cansinpack" placeholder="Cans In Pack" />
+            <input type="number" name="cansinpack2" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="numberofpacks2" class="input numberofpacks" placeholder="Number Of Packs" />
+            <input type="number" name="numberofpacks2" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
             <div class="validation"></div>
           </li>
           <li>
-            <input type="number" name="cost2" class="input cost" placeholder="Cost" />
+            <input type="number" name="cost2" class="input cost" placeholder="Cost" data-required="Cost is required" />
             <div class="validation"></div>
           </li>
           <li>
