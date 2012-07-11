@@ -5,18 +5,18 @@
     <title>Beer Brawl</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <style type="text/css" media="screen">
-@import "/jqtouch/themes/css/jqtouch.css";
-</style>
-    <style type="text/css" media="screen">
-.validation {
-	color: #E71212;
-}
-
-.debug {
-	/* set to false for live app */
-	display: block;
-}
-</style>
+		@import "/jqtouch/themes/css/jqtouch.css";
+		</style>
+			<style type="text/css" media="screen">
+		.validation {
+			color: #E71212;
+		}
+		
+		.debug {
+			/* set to false for live app */
+			display: block;
+		}
+	</style>
     <script src="/jqtouch/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
@@ -55,6 +55,18 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  
 	  OfferInfo.prototype.compare = function (otherOffer) {
 		  return this.getPricePer100ml() < otherOffer.getPricePer100ml() ? this : otherOffer;
+	  }
+	  
+	  function AnalyticsSetup() {
+		  var _gaq = _gaq || [];
+         _gaq.push(['_setAccount', 'UA-33317762-1']);		  
+	  }
+	  
+	  function AnalyticsTrackPage(page) {
+		  _gaq.push(['_trackPageview', '/brawl/' + page]);
+	  }
+	  
+	  function AnalyticsTrackEvent(eventName) {
 	  }
 	    
 	  $(document).ready(function() {
@@ -122,6 +134,11 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
           });
   
 		  $('#offer1').bind('pageAnimationStart', function(e, data){
+				if (data.direction == 'in')
+				{
+					alert("opening offer 1");
+				}
+		  
 				if (data.direction == 'out')
 				{
 					validateRequiredFields(e, $("#offer1"));
@@ -279,5 +296,12 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
         </ul>
       </div>
     </div>
+    <script type="text/javascript">
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();    
+    </script>      
 </body>
 </html>
