@@ -14,9 +14,12 @@ You can even factor in the ABV (strength) to be sure you get the best bang for y
 Credits
 -------
 Programming - Matthew Harris
+
 Art - Ben Norman
 
 
 Acknowledgements
 ----------------
---add maths guys name here
+[Anthonyquas](http://math.stackexchange.com/users/30865/anthonyquas) - For [helping with the mathematics](http://math.stackexchange.com/questions/163016/how-to-calculate-the-winning-special-offer) of the abv calculation
+
+[Filip](http://stackoverflow.com/users/503180/filip) - Idea to [integrate the hash code into Google Analytics](http://stackoverflow.com/questions/8848579/how-to-integrate-google-analytics-into-a-jquerymobile-website) rather than manually passing page names around.
