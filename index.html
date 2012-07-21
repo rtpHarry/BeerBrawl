@@ -24,6 +24,8 @@
         statusBar: 'black'
       });
 	  
+	  var _gaq = _gaq || [];
+	  
 	  function OfferInfo(canSize, cansInPack, numberOfPacks, cost, abv) {
 		  this.CanSize = canSize;
 		  this.CansInPack = cansInPack;
@@ -58,24 +60,35 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  }
 	  
 	  function AnalyticsSetup() {
-		  var _gaq = _gaq || [];
-         _gaq.push(['_setAccount', 'UA-33317762-1']);		  
+         _gaq.push(['_setAccount', 'UA-33317762-1']);
 	  }
 	  
-	  function AnalyticsTrackPage(page) {
-		  _gaq.push(['_trackPageview', '/brawl/' + page]);
+	  function AnalyticsTrackPage() {
+		  // http://stackoverflow.com/questions/8848579/how-to-integrate-google-analytics-into-a-jquerymobile-website
+		  var page = location.hash;
+		  
+		  if(page) {
+			  _gaq.push(['_trackPageview', '/brawl/' + page]);
+		  } else {
+			  _gaq.push(['_trackPageview']);
+		  }
 	  }
 	  
 	  function AnalyticsTrackEvent(eventName) {
+		 // https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_gat.GA_Tracker_._trackPageview
 	  }
-	    
-	  $(document).ready(function() {
-		  //debugPopulateOffers();
-		  
-		  // setup validation
+	  
+	  function ValidationSetup() {
 		  $("input[data-required]").blur(function(e) {
 			  validateRequiredField(e, $(this));
 		  });
+	  }
+	    
+	  $(document).ready(function() {
+		  AnalyticsSetup();
+		  AnalyticsTrackPage();
+		  
+		  ValidationSetup();
 		  
 		  $('#brawlbutton').click(function (){
 			  // get offer info
@@ -100,6 +113,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 			  // show result
 			  var $result = $("#result");			  				  
 			  $result
+			  	.empty()
 			  	.append("<h1>" + resultHeadline + "</h1>")
 				.append("<h2>Cost per 100ml</h2>")
 			  	.append("<p>Offer 1 = £" + offer1per100ml + "p</p>")
@@ -136,7 +150,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  $('#offer1').bind('pageAnimationStart', function(e, data){
 				if (data.direction == 'in')
 				{
-					alert("opening offer 1");
+					AnalyticsTrackPage();
 				}
 		  
 				if (data.direction == 'out')
@@ -146,9 +160,21 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  });
 			
 		  $('#offer2').bind('pageAnimationStart', function(e, data){
+				if (data.direction == 'in')
+				{
+					AnalyticsTrackPage();
+				}
+							  
 				if (data.direction == 'out')
 				{
 					validateRequiredFields(e, $("#offer2"));
+				}
+		  });
+		  
+		  $('#brawl').bind('pageAnimationStart', function(e, data){
+				if (data.direction == 'in')
+				{
+					AnalyticsTrackPage();
 				}
 		  });
 					
