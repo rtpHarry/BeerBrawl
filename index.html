@@ -5,18 +5,17 @@
     <title>Beer Brawl</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <style type="text/css" media="screen">
-		@import "/jqtouch/themes/css/jqtouch.css";
-		</style>
-			<style type="text/css" media="screen">
-		.validation {
-			color: #E71212;
-		}
-		
-		.debug {
-			/* set to false for live app */
+@import "/jqtouch/themes/css/jqtouch.css";
+</style>
+    <style type="text/css" media="screen">
+.validation {
+	color: #E71212;
+}
+.debug {
+	/* set to false for live app */
 			display: block;
-		}
-	</style>
+}
+</style>
     <script src="/jqtouch/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jqtouch/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
@@ -64,6 +63,7 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  }
 	  
 	  function AnalyticsTrackPage() {
+		  // https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_gat.GA_Tracker_._trackPageview		  
 		  // http://stackoverflow.com/questions/8848579/how-to-integrate-google-analytics-into-a-jquerymobile-website
 		  var page = location.hash;
 		  
@@ -74,10 +74,15 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  }
 	  }
 	  
-	  function AnalyticsTrackEvent(eventName) {
-		 // https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_gat.GA_Tracker_._trackPageview
+	  function AnalyticsTrackValidationError(fieldName, fieldValue) {
+		 // https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiEventTracking
+		 _gaq.push(['_trackEvent', 'ValidationError', fieldName, undefined, fieldValue, true]);
 	  }
 	  
+	  function AnalyticsTrackResetOption(buttonPressed) {
+		 _gaq.push(['_trackEvent', 'ResetOption', buttonPressed]);
+	  }	  
+	  	  
 	  function ValidationSetup() {
 		  $("input[data-required]").blur(function(e) {
 			  validateRequiredField(e, $(this));
@@ -127,11 +132,13 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 		  });
 		  
 		  $("#startover").click(function(e) {
-            resetBeerBrawl();
+			  AnalyticsTrackResetOption("Reset");
+			  resetBeerBrawl();
 		  });
 		
 		  $("#winnerstayson").click(function(e) {
-		     winnerStaysOn();
+			  AnalyticsTrackResetOption("WinnerStaysOn");			  
+			  winnerStaysOn();
 		  });
 		
 		  $("#debugstartover").click(function(e) {
@@ -210,12 +217,14 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
 	  }
 	  
 	  function validateRequiredField(e, selector) {
-		if($(selector).val() == "") {
-		  $(selector).next(".validation").text($(selector).data("required"));
+		var $input = $(selector);
+		if($input.val() == "") {
+		  AnalyticsTrackValidationError($input.attr('name'), "empty");
+		  $input.next(".validation").text($input.data("required"));
 		  e.preventDefault();
 		}		  
 		else {
-		  $(selector).next(".validation").empty();	
+		  $input.next(".validation").empty();	
 		}
 	  }	  
 	  
@@ -247,87 +256,87 @@ Right now you're computing the cost per 100ml. Instead you could be computing th
     </head>
 
     <body>
-    <div id="jqt">
+<div id="jqt">
       <div id="offer1">
-        <div class="toolbar">
+    <div class="toolbar">
           <h1>Beer Brawl</h1>
         </div>
-        <ul class="edit rounded">
+    <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize1" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cansize1" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="cansinpack1" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cansinpack1" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="numberofpacks1" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="numberofpacks1" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="cost1" class="input cost" placeholder="Cost" data-required="Cost is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cost1" class="input cost" placeholder="Cost" data-required="Cost is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="abv1" class="input abv" placeholder="ABV (% Strength) (Optional)" />
-          </li>
+        <input type="number" name="abv1" class="input abv" placeholder="ABV (% Strength) (Optional)" />
+      </li>
         </ul>
-        <ul class="rounded">
+    <ul class="rounded">
           <li> <a class="greenButton" href="#offer2">Add Contender</a> </li>
           <li class="debug"> <a class="redButton" href="#" id="debugsample1">Sample Data</a> </li>
         </ul>
-      </div>
+  </div>
       <div id="offer2">
-        <div class="toolbar">
+    <div class="toolbar">
           <h1>Add Contender</h1>
           <a href="#" class="back">Back</a> </div>
-        <ul class="edit rounded">
+    <ul class="edit rounded">
           <li>
-            <input type="number" name="cansize2" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cansize2" class="input cansize" placeholder="Can Size (ml)" data-required="Can size is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="cansinpack2" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cansinpack2" class="input cansinpack" placeholder="Cans In Pack" data-required="Cans in pack is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="numberofpacks2" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="numberofpacks2" class="input numberofpacks" placeholder="Number Of Packs" data-required="Number of packs is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="cost2" class="input cost" placeholder="Cost" data-required="Cost is required" />
-            <div class="validation"></div>
-          </li>
+        <input type="number" name="cost2" class="input cost" placeholder="Cost" data-required="Cost is required" />
+        <div class="validation"></div>
+      </li>
           <li>
-            <input type="number" name="abv2" class="input abv" placeholder="ABV (% Strength) (Optional)" />
-          </li>
+        <input type="number" name="abv2" class="input abv" placeholder="ABV (% Strength) (Optional)" />
+      </li>
         </ul>
-        <ul class="rounded">
+    <ul class="rounded">
           <li><a class="greenButton" id="brawlbutton" href="#brawl">Brawl!</a></li>
-          <li class="debug"> <a class="redButton" href="#" id="debugsample2">Sample Data</a> </li>          
+          <li class="debug"> <a class="redButton" href="#" id="debugsample2">Sample Data</a> </li>
         </ul>
-      </div>
+  </div>
       <div id="brawl">
-        <div class="toolbar">
+    <div class="toolbar">
           <h1>Brawl Winner</h1>
         </div>
-        <ul class="edit rounded">
+    <ul class="edit rounded">
           <li id="result"></li>
         </ul>
-        <ul class="rounded">
+    <ul class="rounded">
           <li><a class="greenButton" id="winnerstayson" href="#offer2">Winner Stays On</a></li>
           <li><a class="redButton" id="startover" href="#offer1">Start Over</a></li>
           <li class="debug"><a class="redButton" id="debugstartover" href="#offer1">Debug Start Over</a></li>
         </ul>
-      </div>
+  </div>
     </div>
-    <script type="text/javascript">
+<script type="text/javascript">
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();    
-    </script>      
+    </script>
 </body>
 </html>
