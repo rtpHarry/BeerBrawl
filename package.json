@@ -1,0 +1,27 @@
+{
+  "name": "beerbrawl",
+  "version": "1.0.0",
+  "description": "A mobile app style website that helps you calculate the best beer offer in the shop.",
+  "main": "app.js",
+  "dependencies": {
+    "angular": "^1.4.7",
+    "angular-formly": "^7.2.1",
+    "angular-formly-templates-bootstrap": "^6.1.5",
+    "api-check": "^7.5.3",
+    "bootstrap": "^3.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtpHarry/BeerBrawl.git"
+  },
+  "author": "rtpHarry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rtpHarry/BeerBrawl/issues"
+  },
+  "homepage": "https://github.com/rtpHarry/BeerBrawl#readme"
+}
