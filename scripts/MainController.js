@@ -4,7 +4,7 @@
     'use strict';
 
     angular
-        .module('formlyApp')
+        .module('beerBrawlApp')
         .controller('MainController', MainController);
 
     function MainController(beerCalculator) {
@@ -13,14 +13,37 @@
         
         // The model object that we reference
         // on the element in index.html
-        vm.offer1 = {};
+        vm.offerModel = {
+            cansize1: 440,
+            cansinpack1: 10,
+            numberofpacks1: 3,
+            cost1: 22,
+            abv1: 4.8,
+            cansize2: 440,
+            cansinpack2: 10,
+            numberofpacks2: 2,
+            cost2: 17,
+            abv2: 4.8, 
+        };
+        
+        // submit handler
+        vm.onSubmit = onSubmit;
+        
+        function onSubmit() {
+            alert("wahhhh");
+            alert(beerCalculator.calculate(vm.offerModel));
+        }
+        
     
         // An array of our form fields with configuration
         // and options set. We make reference to this in
         // the 'fields' attribute on the element
         vm.offerFields = [
             {
-                key: 'cansize',
+                template: '<h2>Offer 1</h2>'
+            },
+            {
+                key: 'cansize1',
                 type: 'input',
                 templateOptions: {
                     type: 'text',
@@ -29,7 +52,7 @@
                 }
             },
             {
-                key: 'cansinpack',
+                key: 'cansinpack1',
                 type: 'input',
                 templateOptions: {
                     type: 'text',
@@ -38,7 +61,7 @@
                 }
             },
             {
-                key: 'numberofpacks',
+                key: 'numberofpacks1',
                 type: 'input',
                 templateOptions: {
                     type: 'text',
@@ -47,7 +70,7 @@
                 }
             },
             {
-                key: 'cost',
+                key: 'cost1',
                 type: 'input',
                 templateOptions: {
                     type: 'text',
@@ -56,7 +79,55 @@
                 }
             },
             {
-                key: 'cansinpack',
+                key: 'abv1',
+                type: 'input',
+                templateOptions: {
+                    type: 'text',
+                    label: 'ABV (% Strength) (Optional)',
+                    required: false
+                }
+            },
+            {
+                template: '<h2>Offer 2</h2>'
+            },
+            {
+                key: 'cansize2',
+                type: 'input',
+                templateOptions: {
+                    type: 'text',
+                    label: 'Can Size (ml)',
+                    required: true
+                }
+            },
+            {
+                key: 'cansinpack2',
+                type: 'input',
+                templateOptions: {
+                    type: 'text',
+                    label: 'Cans In Pack',
+                    required: true
+                }
+            },
+            {
+                key: 'numberofpacks2',
+                type: 'input',
+                templateOptions: {
+                    type: 'text',
+                    label: 'Number Of Packs',
+                    required: true
+                }
+            },
+            {
+                key: 'cost2',
+                type: 'input',
+                templateOptions: {
+                    type: 'text',
+                    label: 'Cost',
+                    required: true
+                }
+            },
+            {
+                key: 'abv2',
                 type: 'input',
                 templateOptions: {
                     type: 'text',
