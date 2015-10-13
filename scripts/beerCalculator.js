@@ -22,11 +22,11 @@
 		Dividing as you did before will indicate the cheapest way to get wasted. 
 		*/
 		
-		OfferInfo.prototype.getPricePer100ml = function () {
-			var totalCans = this.CansInPack * this.NumberOfPacks;
-			var totalMl = totalCans * this.CanSize;
+		function getPricePer100ml(model) {
+			var totalCans = model.CansInPack * model.NumberOfPacks;
+			var totalMl = totalCans * model.CanSize;
 			var totalCl = totalMl / 100;
-			return (this.Cost / totalCl).toFixed(2);
+			return (model.Cost / totalCl).toFixed(2);
 		}
 		
 		OfferInfo.prototype.getPricePerMlOfAlcohol = function () {
@@ -45,21 +45,21 @@
 		
 		function getOfferInfo1(model) {
 			return {
-				CanSize : model.CanSize1,
-				CansInPack : model.CansInPack1,
-				NumberOfPacks : model.NumberOfPacks1,
-				Cost : model.Cost1,
-				ABV : model.ABV1
+				CanSize : model.cansize1,
+				CansInPack : model.cansinpack1,
+				NumberOfPacks : model.numberofpacks1,
+				Cost : model.cost1,
+				ABV : model.abv1
 			};			
 		}
 		
 		function getOfferInfo2(model) {
 			return {
-				CanSize : model.CanSize2,
-				CansInPack : model.CansInPack2,
-				NumberOfPacks : model.NumberOfPacks2,
-				Cost : model.Cost2,
-				ABV : model.ABV2
+				CanSize : model.cansize2,
+				CansInPack : model.cansinpack2,
+				NumberOfPacks : model.numberofpacks2,
+				Cost : model.cost2,
+				ABV : model.abv2
 			};			
 		}		
 		
@@ -68,8 +68,8 @@
 			  var offer2 = getOfferInfo2(model);			  
 			  
 			  // calculate winner
-			  var offer1per100ml = offer1.getPricePer100ml();
-			  var offer2per100ml = offer2.getPricePer100ml();	
+			  var offer1per100ml = getPricePer100ml(offer1);
+			  var offer2per100ml = getPricePer100ml(offer2);	
 
 			  //var offer1per100mlABV = offer1.getPricePerMlOfAlcohol();
 			  //var offer2per100mlABV = offer2.getPricePerMlOfAlcohol();				  	  

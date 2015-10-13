@@ -11,6 +11,13 @@
 
         var vm = this;
         
+        // submit handler
+        vm.onSubmit = onSubmit;
+        
+        function onSubmit() {
+            alert(beerCalculator.calculate(vm.offerModel));
+        }
+        
         // The model object that we reference
         // on the element in index.html
         vm.offerModel = {
@@ -26,15 +33,6 @@
             abv2: 4.8, 
         };
         
-        // submit handler
-        vm.onSubmit = onSubmit;
-        
-        function onSubmit() {
-            alert("wahhhh");
-            alert(beerCalculator.calculate(vm.offerModel));
-        }
-        
-    
         // An array of our form fields with configuration
         // and options set. We make reference to this in
         // the 'fields' attribute on the element
@@ -50,6 +48,14 @@
                     label: 'Can Size (ml)',
                     required: true
                 }
+                /*
+                    templateOptions: {
+                    type: 'number',
+                    label: 'Zip',
+                    max: 99999,
+                    min: 0,
+                    pattern: '\\d{5}'
+                    }*/
             },
             {
                 key: 'cansinpack1',
