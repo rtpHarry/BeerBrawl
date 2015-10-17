@@ -8,3 +8,9 @@
     -webkit-box-shadow: 0 2px 2px 1px rgba(0,0,0,0.2);
     box-shadow: 0 2px 2px 1px rgba(0,0,0,0.2);
 }
+
+h1 {
+    margin-top: 0;
+    font-size: 113px;
+    font-weight: bold;
+}
