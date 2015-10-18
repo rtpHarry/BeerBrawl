@@ -1,0 +1,21 @@
+<!-- form-profile.html 
+<form ng-submit="vm.onSubmit()" name="vm.offerForm" novalidate>
+
+</form>
+-->
+
+<formly-form model="vm.offerModel" fields="vm.offerFields" form="vm.offerForm">
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.offerForm.$invalid">Brawl!</button>
+    
+    <div class="form-group row">
+        <div class="col-xs-6 col-xs-offset-3">
+            <a ui-sref="form.addoffer" ui-sref-opts="{reload: true}" class="btn btn-block btn-info">
+            Add Contender <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            </a>
+            
+            <a ui-sref="form.brawl" class="btn btn-block btn-warning">
+            Brawl <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            </a>    
+        </div>
+    </div>    
+</formly-form>

@@ -7,23 +7,18 @@
 </head>
 <body ng-app="beerBrawlApp" ng-controller="MainController as vm">
 
-    <div class="container col-md-4 col-md-offset-4">
+    <div class="container col-md-8 col-md-offset-2">
         <h1>Beer Brawl</h1>
         <div ui-view></div>
-        <form ng-submit="vm.onSubmit()" name="vm.offerForm" novalidate>
-            <formly-form model="vm.offerModel" fields="vm.offerFields" form="vm.offerForm">
-                <button type="submit" class="btn btn-primary" ng-disabled="vm.offerForm.$invalid">Brawl!</button>
-            </formly-form>
-        </form>
     </div>  
 
     <!-- Application Dependencies -->
     <script src="node_modules/api-check/dist/api-check.js"></script>
     <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
     <script src="node_modules/angular-formly/dist/formly.js"></script>
     <script src="node_modules/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-animate.min.js"></script>
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 
     <!-- Application Scripts -->
     <script src="app.js"></script>

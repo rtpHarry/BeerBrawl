@@ -18,6 +18,9 @@
             alert(beerCalculator.calculate(vm.offerModel));
         }
         
+        // storage for all offers
+        vm.offers = [];
+        
         // The model object that we reference
         // on the element in index.html
         vm.offerModel = {
